@@ -75,3 +75,5 @@ function my_callback(arg1, arg2, result)
 
 end
 ```
+
+Check the [complete example contract](example/caller-example.lua)
