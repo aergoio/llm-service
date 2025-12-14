@@ -52,11 +52,16 @@ The node generates an account on first run (saved to `nodes/account.data`). Add 
 From another Aergo contract:
 
 ```lua
-  contract.call.value(llm_service_price)(llm_service_address, "new_request", {
-    config = "<config_hash>",      -- hash pointing to stored prompt config
-    input = { key = "<hash>" },    -- input values (can be hashes)
-    redundancy = 1                 -- number of nodes that must agree
-  }, "my_callback", arg1, arg2)
+  local request = {
+    config = "<config_hash>",    -- hash pointing to stored prompt config
+    input = {                    -- input values (can be hashes of off-chain stored content)
+      user_input = "<hash>",     -- key names are free, include them on the prompt as {{user_input}} for replacement
+      contract_input = "..."
+    },
+    redundancy = 1               -- number of nodes that must agree
+  }
+
+  contract.call.value(llm_service_price)(llm_service_address, "new_request", request, "my_callback", arg1, arg2)
 ```
 
 The callback receives the result as the last argument
